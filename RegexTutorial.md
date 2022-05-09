@@ -20,7 +20,7 @@ The below content will explain what each section of this code does and more.
   - [Regex Components](#regex-components)
     - [Anchors](#anchors)
     - [Quantifiers](#quantifiers)
-    - [Grouping Constructs](#grouping-constructs)
+    - [Grouping and Capturing](#grouping-and-capturing)
     - [Bracket Expressions](#bracket-expressions)
     - [Character Classes](#character-classes)
     - [The OR Operator](#the-or-operator)
@@ -32,13 +32,15 @@ The below content will explain what each section of this code does and more.
 
 ### Anchors
 
-Anchors and, oftenly associated with it, boundaries allows the user to describe or find a term based on locations. For example, finding certain words that are the first or last on a line. Some examples:
+^abc$ -^start / $end of the string
 
-^ = start of the string
-$ = end of the string
-\< = the start of the word
+^ Matches the beginning of the string, or the beginning of a line if the multiline flag (m) is enabled.This matches a position, not a character.
+$ Matches the end of the string, or the end of a line if the multiline flag (m) is enabled. This matches a position, not a character.
+\b\B -word, not-word boundary
 
-...and many more. The summary is that these anchors and boundaries affiliate with terms and the location they are located.
+\b Matches a word boundary position between a word character and non-word character or position (start / end of string). See the word character class (w) for more info.
+\B Matches any position that is not a word boundary. This matches a position, not a character.
+See Boundaries for more detailed Information
 
 ### Quantifiers
 
@@ -49,9 +51,9 @@ Similar to the anchors and boundaries but used in a different way, quanitifiers 
 
 There are many more of quantifiers.
 
-### Grouping Constructs
+### Grouping and Capturing
 
-When working in javacript or other lanaguages, there are various categories of data such as characters, operators and constructs that can be used to define regular expressions. However, it can be a bit confusing at times. Thus we use Grouping constructs. These constructs allow the user to describe basically take apart normal regular expressions and be used to match and catch substrings of a said string. For example:
+When working in JavaScript or other lanaguages, there are various categories of data such as characters, operators and constructs that can be used to define regular expressions. However, it can be a bit confusing at times. Thus we use Grouping constructs. These constructs allow the user to describe basically take apart normal regular expressions and be used to match and catch substrings of a said string. For example:
 
 `( subexpression ) = (\w)\1 = "ee" in "deep"`
 
@@ -68,7 +70,7 @@ How about you want a certain number of things to be matched? We use curly bracke
 
 ### Character Classes
 
-Character classes or character sets us a special notation that allows the user to match any symbol or character from a certain set.
+\d is present in the given matching email code and what it will match a single letter character, a-z, after the @ sign in the email address. Basically ensuring that a letter is matched after the @ in the email and not a number or special character.
 
 ### The OR Operator
 
@@ -84,15 +86,15 @@ I like penguins, but not tigers.
 
 ### Flags
 
-Flags, in a regular expression, are tokens that modify its behavior of searching. Basically, flags are a form of optional parameters that users can use in addition to plain expression to make it search in a different way. Each flag is denoted by a single alphabetic character, and serves different purposes in modifying the expression's searching behaviour. For exampole:
+A regex flag is not used in the matching email code that is being used for this tutorial. A regular expression typically comes in the form:
 
-The flag 'i' ignores casing, which ignores any case-sensitive
-`/hello/i` ==> ignores all case-sensitives
+/regex/
 
-the flag 'g' stands for global, it makes the expression look for all its matches instead of stoppin gat the first one.
-example string "cats love cats'
-`/cats/` only matches the first 'cats'
-`/cats/g` matches all 'cats'
+Where the slashes denote where the regular expresssion starts and ends. A flag can be used after the slash to give more guidelines for our matching. The flags are:
+
+g which stands for "global" which will allow for matching all the instances within a string that follow the matching guidelines set in the regular expression.
+m which stands for "multiline" which will search line by line rather than searching through a string as a whole.
+i which stands for "insensitive" will make the regular expression case-insensitive, so capitals and lower-case letters will not deture the matching.
 
 ### Character Escapes
 
