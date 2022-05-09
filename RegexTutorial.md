@@ -1,139 +1,111 @@
-Regex Tutorial
-This is a tutorial highlighting the use of regular expressions to validate an email address.
+# Title: Regex Tutorial
 
-Summary
-A regular expression, regex for short, is a sequence of characters that defines a search pattern. Regular expressions are often used to validate user input by finding patterns of characters within a string.
+Regular expressions or more commonly refer to as regex or regexp are special strings representing a pattern to be used in a search operation. Basically, they are expressions or blocks of codes that can be used in various computing applications. One good example is using a regular expresison for Emails as this can be used to not only create but also check if email is properly created. In this gist, we will take apart a regular expression used in javascript and the componnents that make up the expression.
 
-For example, the following regex can be used to verify that a user has input a valid email address:
+## Summary
 
-/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+A Regex or regular expression is a sequence of characters that define a search pattern. Usually such patterns are used by string-searching algorithms for "find" or "find and replace" operations on strings. It also looks for input validations. It is a technique commonly developed in theoretical computer science.
 
-Although it may look like a random assortment of characters, every part of this regex has a specific responsibility. We will go over each aspect in the following sections of this tutorial.
+We will look a a string of code using regex, this code looks for a match HTML tag.
 
-If you would like to go to a specific section of this tutorial, you may click the corresponding link in the Table of Contents.
+Example: /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/
 
-Table of Contents
-Anchors
-Grouping Constructs
-Bracket Expressions
-Quantifiers
-Character Classes
-Character Escapes
-Author
-Regex Components
-A regex is a literal, therefore it must be contained within two forward slashes /.
+The below content will explain what each section of this code does and more.
 
-/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+## Table of Contents
 
-Note the / found on each end of the regex in the example above.
+- [Title: Regex Tutorial](#title-regex-tutorial)
+  - [Summary](#summary)
+  - [Table of Contents](#table-of-contents)
+  - [Regex Components](#regex-components)
+    - [Anchors](#anchors)
+    - [Quantifiers](#quantifiers)
+    - [Grouping Constructs](#grouping-constructs)
+    - [Bracket Expressions](#bracket-expressions)
+    - [Character Classes](#character-classes)
+    - [The OR Operator](#the-or-operator)
+    - [Flags](#flags)
+    - [Character Escapes](#character-escapes)
+  - [Author](#author)
 
-Anchors
-The characters ^ and $ are anchors.
+## Regex Components
 
-The ^ anchor signifies the beginning of a string, and the $ anchor signifies the end of a string.
+### Anchors
 
-/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+Anchors and, oftenly associated with it, boundaries allows the user to describe or find a term based on locations. For example, finding certain words that are the first or last on a line. Some examples:
 
-As you can see in the example above, the ^ anchor is the second character, right after the opening /, and the $ anchor is the second to last character, right before the closing /.
+^ = start of the string
+$ = end of the string
+\< = the start of the word
 
-Grouping Constructs
-/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+...and many more. The summary is that these anchors and boundaries affiliate with terms and the location they are located.
 
-If you look carefully at this regular expression, you might notice there are several sets of parentheses enclosing different groups of letters, numbers, and symbols. These parentheses are being used to create grouping constructs or subexpressions.
+### Quantifiers
 
-For example, the expression (abc):(def) contains two subexpressions, "abc" and "def", each grouped within a set of parentheses.
+Similar to the anchors and boundaries but used in a different way, quanitifiers allow t he user to use quanitities as a way to find patterns. For example if one wants to have a certain character to string to appear in a certain pattern, quantifiers can be used. For more visual example:
 
-Unless told otherwise, grouping constructs look for exact matches. The expression (abc):(def) is meant to check if a string exactly matches “abc:def”. The string “bca:fde” would not be a match.
+`character\{m\}` = three characters get printed out
+`character\{m,n\}` = the pattern starts at m and increases until it reaches n
 
-Take another look at our regex for matching an email.
+There are many more of quantifiers.
 
-/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+### Grouping Constructs
 
-You can see the three subexpressions within our regex delineate the three parts of an email address:
+When working in javacript or other lanaguages, there are various categories of data such as characters, operators and constructs that can be used to define regular expressions. However, it can be a bit confusing at times. Thus we use Grouping constructs. These constructs allow the user to describe basically take apart normal regular expressions and be used to match and catch substrings of a said string. For example:
 
-([a-z0-9_\.-]+)
-This subexpression is matching the part of an email address that comes before the @ symbol.
-([\da-z\.-]+)
-This subexpression is matching the characters after the @ symbol and before the . in an email address.
-([a-z\.]{2,6})
-This subexpression is matching the characters after the . in an email address.
-Bracket Expressions
-/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+`( subexpression ) = (\w)\1 = "ee" in "deep"`
 
-You might have noticed there are also several sets of brackets enclosing different groups of letters, numbers, and symbols within the subexpressions of this regex. These brackets are being used to create bracket expressions.
 
-Bracket expressions represent the range of characters beinged matched by a regular expression. Bracket expressions do not have to find an exact match, so the expression [xyz] would match “yyy”, “zyx”, “xyzxyzxyz”, and so on, as long as the string only includes the specified characters within the bracket expression.
+### Bracket Expressions
 
-The hyphens between the letters and numbers within a bracket expression represent the range held between those characters. For example [a-z] will match all lowercase letters in the alphabet. The bracket expression [a-zA-Z] will match all lowercase and uppercase letters.
+Brackets, [], can be use to indicate a set of characters, whether it be a full string or a single character, that can be used to match and search for that specific character or string. Any character or string placed in the bracket is then matched. For example:
 
-Take another look at our regex for matching an email.
+`elephant.match(/[abcd]/)` = matches a
 
-/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+How about you want a certain number of things to be matched? We use curly brackets, {}, for that. Any number placed in the brackets and the exact amount is searched. For example:
 
-You can see the bracket expressions within our regex are:
+`'banana'.match(/na{2}/)` = matches 'nana' since there is to 'na'
 
-[a-z0-9_\.-]
-Matches lowercase letters, all numbers, underscores, periods, and hyphens (I'll explain the backslash in the Character Escapes section).
-[\da-z\.-]
-Matches digits (\d), lowercase letters, periods, and hyphens.
-[a-z\.]
-Matches lowercase letters and periods.
-These bracket expressions are all positive character groups, meaning the characters listed are ones that will be matched. Any bracket expression can be made a negative character group by adding ^ to the beginning of the expression. For example, [^aeiouAEIOU] will exclude all matches with lowercase or uppercase vowels.
+### Character Classes
 
-Quantifiers
-Quantifiers set limits for the strings matched by a regex. There are several ways to indicate these limits:
+Character classes or character sets us a special notation that allows the user to match any symbol or character from a certain set.
 
-* matches a pattern zero or more times
-+ matches a pattern one or more times
-? matches a pattern zero or one time
-{}
-{ n } matches exactly n times
-{ n, } matches at least n times
-{ n, x } matches at least n times and at most x times
-? can be added after any of the above symbols for the regex to be matched in as few occurrences as possible
-Take another look at the regex for matching an email:
+### The OR Operator
 
-/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+When building an operator that uses logic, more than likely one will run into logics based on the concept of or. In javaescript. using or can tell the operator to perform one function or the other or some other operation based on the condition. The most common regular expression for the "or" Operator is ||. In fact one can add as many choices as long as they utilize the | expression. For example:
 
-The quantifiers found in this regex are:
+`"I like (dogs|penguins) but not (lions|tigers).`
 
-+
-This quantifier is found in the first two subexpressions of the regex, ([a-z0-9_\.-]+) and ([\da-z\.-]+).
-This quantifier indicates at least one match must be found.
-{2,6}
-This quantifier is found in the third subexpression of the regex, ([a-z\.]{2,6}).
-This indicates this part of the regex must match a string between 2 and 6 characters long.
-Character Classes
-A character class defines a set of characters and can work as a shortcut to simplify a bracket expression. Some examples of character classes include:
+^The above results can match any of the following:
+I like dogs, but not lions.
+I like dogs, but not tigers.
+I like penguins, but not lions.
+I like penguins, but not tigers.
 
-.
-This class matches any character except for the newline character (\n).
-\d
-This class matches any Arabic numeral digit, which is the same as saying [0-9].
-\w
-This class matches any alphanumeric character from the basic Latin alphabet and underscores, which is the same as saying [A-Za-z0-9_].
-\s
-This class matches a single whitespace character.
-Making any of these character classes a capital letter indicates an inverse match. For example, where \d matches digits, \D will match non digits.
-Take another look at the regex for matching an email:
+### Flags
 
-/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+Flags, in a regular expression, are tokens that modify its behavior of searching. Basically, flags are a form of optional parameters that users can use in addition to plain expression to make it search in a different way. Each flag is denoted by a single alphabetic character, and serves different purposes in modifying the expression's searching behaviour. For exampole:
 
-The character class found in this regex is:
+The flag 'i' ignores casing, which ignores any case-sensitive
+`/hello/i` ==> ignores all case-sensitives
 
-\d
-This character class is found in the second subexpression of the regex, ([\da-z\.-]+), and will match any digit 0-9.
-Character Escapes
-Certain characters have a special meaning within a regex, therefore they should be preceded by a backslash \ when indicating them literally.
+the flag 'g' stands for global, it makes the expression look for all its matches instead of stoppin gat the first one.
+example string "cats love cats'
+`/cats/` only matches the first 'cats'
+`/cats/g` matches all 'cats'
 
-These characters are:
+### Character Escapes
 
-+ * ? ^ $ \ . [ ] { } ( ) | /
+In Javascript and computation in general, an escape character is a character that invokes an alternative interpretation on the following characters in a character sequence. What  this means is a character that is attached to following sequence of characters, the sequence can be seen in a different way. An escape character is a particular case of metacharacters. Generally, the judgement of whether something is an escape character or not depends on the context of the code that follows it.
 
-Note: Within character sets it is only necessary to escape \, -, and ].
+In regex, the "\" character is the expression that denotes a specific character is a escaped character. For example:
 
-Take another look at the regex for matching an email:
+`\d` => matches any digit
+`\D` => matches any non-digit
+`\f` => matches a form feed
 
-/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+## Author
 
-The character escape used in this regex is \., which can be found four different times to indicate the literal character ..
+Author: Nita Roberts
+
+Github Account: https://github.com/NKR-28
